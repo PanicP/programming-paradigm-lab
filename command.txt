@@ -1,0 +1,7 @@
+# compile 'test.ml' into an executable 'test'
+
+ocamlc -o test test.ml 
+
+# to run the program
+
+./test 
