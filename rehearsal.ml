@@ -29,11 +29,11 @@ b. 'a list * 'b list
 (* b. ([], []) is a pair of two empty lists, so its type is ('a list * 'b list), which means it can be a pair of any two lists of any two types. *)
 
 (* c. fun _ -> [] *)
-c. '_a -> 'b list
+c. 'a -> 'b list
 (* c. fun _ -> [] is a function that takes any input (represented by the _ wildcard pattern) and returns an empty list []. Its type is '_a -> 'b list, which means it takes any input of any type and returns a list of any type. *)
 
 (* d. (|>)  *)
-d. '_a -> ('_a -> 'b) -> 'b
+d. 'a -> ('a -> 'b) -> 'b
 (* d. The |> operator is the pipe-forward operator, which is used to chain functions together. It takes an input of type '_a and a function of type ('_a -> 'b) and returns the result of applying the function to the input. Its type is '_a -> ('_a -> 'b) -> 'b, which means it takes any input of any type, a function that takes an input of that same type and returns a value of any other type, and returns that same other type. *)
 
 (* ######################################################### *)
