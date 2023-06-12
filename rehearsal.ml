@@ -38,11 +38,19 @@ d. '_a -> ('_a -> 'b) -> 'b
 
 (* ######################################################### *)
 
-(* 3. For each of the following functions, describe what they do and provide a non-trivial, illustrative example of an application.
-a. let c lists = List.fold_left (@) [] lists
-b. let k = List.map (fun x -> x > 10)
-c. let g h x = h x |> not
-d. let p f xs = (List.filter f xs, List.filter (g f) xs) < g from part (b) > *)
+(* 3. For each of the following functions, describe what they do and provide a non-trivial, illustrative example of an application. *)
+
+(* a. let c lists = List.fold_left (@) [] lists *)
+The function c concatenates a list of lists into a single list. For example, c [[1;2]; [3;4]; [5;6]] returns the list [1; 2; 3; 4; 5; 6].
+
+(* b. let k = List.map (fun x -> x > 10) *)
+The function k takes a list of integers and returns a list of booleans indicating whether each integer is greater than 10. For example, k [1; 20; 3; 40] returns the list [false; true; false; true].
+
+(* c. let g h x = h x |> not *)
+The function g takes a boolean function h and a value x, and returns the negation of h x. For example, g (fun x -> x > 10) 5 returns true because 5 is not greater than 10, so the function returns the negation of false, which is true.
+
+(* d. let p f xs = (List.filter f xs, List.filter (g f) xs) < g from part (c) > *)
+The function p takes a boolean function f and a list xs, and returns a pair of two lists: the first list contains all the elements in xs that satisfy f, and the second list contains all the elements in xs that do not satisfy f. For example, p (fun x -> x > 10) [5; 20; 3; 40] returns the pair ([20; 40], [5; 3]), which means that the first list contains the values greater than 10 (20 and 40), and the second list contains the values less than or equal to 10 (5 and 3).
 
 (* ######################################################### *)
 
