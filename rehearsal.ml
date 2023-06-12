@@ -55,13 +55,56 @@ The function p takes a boolean function f and a list xs, and returns a pair of t
 (* ######################################################### *)
 
 (* 4. Consider the library function val map2 : ('a -> 'b -> 'c) -> 'a list -> 'b list -> 'c list, where map2 f [a1; ...; an] [b1; ...; bn] is [f a1 b1; ...; f an bn]. Use map2 to write a function val zip: 'a list -> 'b list -> ('a * 'b) list, such that, e.g. zip [1;2;3] [4;5;6] yields [(1,4);(2,5);(3,6)]. The behaviour is only required for lists of equal length (undefined otherwise). *)
+let zip xs ys =
+  let f x y = (x, y) in
+  List.map2 f xs ys
+
+The function zip takes two lists xs and ys, and applies the map2 function to them with the helper function f that takes two arguments x and y and returns a tuple (x, y). The result is a list of tuples that pair up the corresponding elements of xs and ys. Note that map2 guarantees that the resulting list will have the same length as xs and ys, so the behaviour is only defined if xs and ys are of equal length.
+
+For example, zip [1;2;3] [4;5;6] returns the list [(1,4);(2,5);(3,6)].
+
 
 (* ######################################################### *)
 
 (* 5. Write a function val sumOfLargeSquares : int list -> int, that computes the sum of the squares of all list elements larger than 5, e.g. sumOfLargeSquares [3;4;5;6;7] yields 85. Do not use explicit recursion. *)
 
+let sumOfLargeSquares xs =
+  List.filter (fun x -> x > 5) xs
+  |> List.map (fun x -> x * x)
+  |> List.fold_left (+) 0
+
+The function first filters the list xs to include only the elements greater than 5, using the List.filter function and a lambda function that takes an element x and returns a boolean indicating whether it is greater than 5.
+
+Then, it maps (squares) the resulting list using the List.map function and a lambda function that takes an element x and returns its square x * x.
+  
+Finally, it reduces the resulting list to a single value - the sum of all its elements - using the List.fold_left function with the + operator and an initial value of 0. The resulting value is the sum of the squares of all the elements in xs that are greater than 5.
+  
+For example, sumOfLargeSquares [3;4;5;6;7] returns 85, which is the sum of the squares of the elements 6 and 7.
+
 (* ######################################################### *)
 
-(* 6. The following functions are not tail-recursive. Transform them into an equivalent tail recursive versions
-a. let rec factorial n = if n = 0 then 1 else n * factorial n
-b. let rec reverse xs = if xs = [] then [] else (reverse xs) @ [x] *)
+(* 6. The following functions are not tail-recursive. Transform them into an equivalent tail recursive versions *)
+
+(* a. let rec factorial n = if n = 0 then 1 else n * factorial n *)
+let factorial n =
+  let rec loop acc n =
+    if n = 0 then acc
+    else loop (acc * n) (n - 1)
+  in
+  loop 1 n
+
+The tail-recursive version of factorial uses an inner function loop that takes two arguments: acc, which accumulates the factorial product, and n, which decrements from the input n down to 0. In each iteration, loop multiplies n by acc and decrements n by 1, until n reaches 0, at which point loop returns the accumulated factorial product.
+
+(* b. let rec reverse xs = if xs = [] then [] else (reverse xs) @ [x] *)
+let reverse xs =
+  let rec loop acc = function
+    | [] -> acc
+    | x :: xs -> loop (x :: acc) xs
+  in
+  loop [] xs
+
+The tail-recursive version of reverse uses an inner function loop that takes two arguments: acc, which accumulates the reversed list, and xs, which iteratively pops off the head of the input list and prepends it to acc until the input list is empty.
+
+Note that in each iteration, loop prepends x to acc, rather than appending it as in the original reverse function. This is because prepending to a list is an O(1) operation, while appending is O(n) (where n is the length of the list), which makes the tail-recursive version more efficient. Finally, when the input list xs is empty, loop returns the accumulated reversed list acc.
+
+
